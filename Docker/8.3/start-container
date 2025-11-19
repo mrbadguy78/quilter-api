@@ -15,6 +15,12 @@ fi
 
 chmod -R ugo+rw /.composer
 
+# Install dependencies if vendor directory doesn't exist
+if [ ! -d "/var/www/html/vendor" ]; then
+    echo "Installing Composer dependencies..."
+    cd /var/www/html && composer install --no-interaction
+fi
+
 if [ $# -gt 0 ]; then
     if [ "$SUPERVISOR_PHP_USER" = "root" ]; then
         exec "$@"
