@@ -27,31 +27,26 @@ cd quilter-api
 ```bash
 cp .env.example .env
 ```
+
 ### 3. Start the Containers
 
 ```bash
 docker-compose up -d
 ```
 
-### 4. Run composer install
-
-```bash
-docker-compose exec quilter-api composer install
-```
-
-### 5. Run Migrations
+### 4. Run Migrations
 
 ```bash
 docker-compose exec quilter-api php artisan migrate
 ```
 
-### 6. Initialise Laravel Passport
+### 5. Initialise Laravel Passport
 
 ```bash
 docker-compose exec quilter-api php artisan passport:install
 ```
 
-### 7. Run the Test Suite
+### 6. Run the Test Suite
 
 ```bash
 docker-compose exec quilter-api php artisan test
