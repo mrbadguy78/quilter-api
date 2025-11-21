@@ -7,6 +7,7 @@ use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\AllowedSort;
 use Spatie\QueryBuilder\Enums\FilterOperator;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -20,6 +21,8 @@ class ListAccountTransactionsAction
                 AllowedFilter::exact('type'),
                 AllowedFilter::operator('amount', FilterOperator::DYNAMIC),
             ])
+            ->defaultSort('-created_at')
+            ->allowedSorts(['created_at'])
             ->paginate(10)
             ->appends($request->query());
     }
