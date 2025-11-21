@@ -7,6 +7,7 @@ use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\Enums\FilterOperator;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class ListAccountTransactionsAction
@@ -17,6 +18,7 @@ class ListAccountTransactionsAction
             ->whereBelongsTo($account)
             ->allowedFilters([
                 AllowedFilter::exact('type'),
+                AllowedFilter::operator('amount', FilterOperator::DYNAMIC),
             ])
             ->paginate(10)
             ->appends($request->query());
