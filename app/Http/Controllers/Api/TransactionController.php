@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Actions\Transactions\DepositFundsAction;
+use App\Actions\Transactions\ListAccountTransactionsAction;
 use App\Actions\Transactions\WithdrawFundsAction;
 use App\Enums\TransactionType;
 use App\Http\Controllers\Controller;
@@ -15,14 +16,13 @@ use Illuminate\Support\Facades\Gate;
 
 class TransactionController extends Controller
 {
+    public function __construct(private readonly ListAccountTransactionsAction $listAccountTransactionsAction) {}
+
     public function index(Request $request, Account $account)
     {
         Gate::authorize('view', [Transaction::class, $account]);
 
-        $transactions = $account->transactions()
-            ->with('account')
-            ->latest()
-            ->paginate(10);
+        $transactions = $this->listAccountTransactionsAction->execute($account, $request);
 
         return TransactionResource::collection($transactions);
     }
