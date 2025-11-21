@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Enums\TransactionType;
-use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -19,24 +18,13 @@ class Transaction extends Model
     ];
 
     protected $casts = [
+        'amount' => 'decimal:2',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
         'type' => TransactionType::class,
     ];
 
-    protected function amount(): Attribute
-    {
-        return Attribute::make(
-            get: fn ($value) => number_format(
-                (float) $value,
-                2,
-                '.',
-                ''
-            ),
-        );
-    }
-
-    public function account()
+    public function account(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Account::class);
     }
